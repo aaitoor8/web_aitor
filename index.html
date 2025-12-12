@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página Web Aitor IXD</title>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0c0c0d;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  a { color: #c88cff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header {
+    background: linear-gradient(120deg, #111, #1a1a1e);
+    color: #c88cff;
+    padding: 50px 20px;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 3px #c88cff, 0 0 6px #c88cff;
+    position: relative;
+    z-index: 2;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 70px auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ------------------- Conceptos ------------------- */
+  .concepto {
+    background: #1b1b1b;
+    padding: 20px 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+    margin-bottom: 40px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, max-height 0.6s ease, background 0.3s ease, filter 0.4s ease;
+    cursor: pointer;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    border: 2px solid rgba(200, 136, 255, 0.4);
+  }
+
+  .concepto:hover {
+    transform: scale(1.03) translateY(-3px);
+    box-shadow: 0 12px 25px rgba(200,136,255,0.6), 0 8px 15px rgba(0,0,0,0.7);
+    background: linear-gradient(135deg, #1f1f1f, #2a1a2f);
+    filter: brightness(1.05) drop-shadow(0 0 8px rgba(200,136,255,0.6));
+  }
+
+  .concepto h2 {
+    color: #c88cff;
+    font-size: 1.5rem;
+    text-shadow: 0 0 3px #c88cff;
+    word-wrap: break-word;
+    line-height: 1.3;
+    margin-right: 15px;
+  }
+
+  @media (max-width: 600px) {
+    .concepto h2 {
+      font-size: 1.3rem;
+    }
+  }
+
+  .concepto-content {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    width: 100%;
+    margin-top: 15px;
+    grid-column: 1 / -1;
+  }
+
+  .concepto.expanded .concepto-content {
+    opacity: 1;
+    max-height: 1000px;
+  }
+
+  .concepto img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    display: block;
+    margin: 15px 0 0 0;
+    border: 2px solid rgba(200,136,255,0.5);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .concepto.expanded img {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .desplegar-btn {
+    padding: 8px 18px;
+    border: 2px solid #c88cff;
+    border-radius: 8px;
+    background: #1b1b1b;
+    color: #c88cff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .desplegar-btn:hover {
+    background: #c88cff;
+    color: #1b1b1b;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(200,136,255,0.7);
+  }
+
+  /* Extra info */
+  .extra-info {
+    width: 90%;
+    max-width: 1100px;
+    margin: 80px auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .extra-info h2 { color: #c88cff; font-size: 2rem; margin-bottom: 20px; text-shadow: 0 0 3px #c88cff; }
+  .extra-info h3 { color: #c88cff; font-size: 1.4rem; margin-top: 24px; text-shadow: 0 0 2px #c88cff; }
+  .extra-info p { font-size: 1.05rem; margin-bottom: 16px; }
+
+  .gallery {
+    width: 90%;
+    max-width: 1100px;
+    margin: 80px auto 120px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .gallery-item {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #c88cff;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .gallery-item img { width: 100%; border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .gallery-item img:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(200,136,255,0.5); }
+  .gallery-item p { margin-top: 12px; font-size: 1rem; color: #e0e0e0; }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 0.9rem;
+    color: #999;
+    background: #111;
+    margin-top: 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(200,136,255,1);
+    filter: drop-shadow(0 0 6px rgba(200,136,255,1));
+    opacity: 0;
+    transition: opacity 1.8s ease;
+    pointer-events: none;
+    animation: float linear infinite, pulse 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-500px) translateX(40px); }
+    100% { transform: translateY(0) translateX(-40px); }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(0.9); }
+  }
+
+</style>
+</head>
+<body>
+
+<header>Conceptos Básicos de Redes — Aitor</header>
+
+<div class="container">
+  <div class="concepto">
+    <h2>¿Qué es una red de datos?</h2>
+    <button class="desplegar-btn">Desplegar</button>
+    <div class="concepto-content">
+      <p>Una red de datos es un conjunto de dispositivos conectados entre sí que pueden compartir información, recursos y servicios.</p>
+      <img src="./reddedatos.png" alt="Ilustración red de datos">
+    </div>
+  </div>
+
+  <div class="concepto">
+    <h2>¿Qué es una dirección IP?</h2>
+    <button class="desplegar-btn">Desplegar</button>
+    <div class="concepto-content">
+      <p>La dirección IP identifica cada dispositivo en la red, funcionando como su “matrícula”.</p>
+      <img src="./direccionip.png" alt="Ilustración dirección IP">
+    </div>
+  </div>
+
+  <div class="concepto">
+    <h2>¿Qué es un Router / Puerta de enlace?</h2>
+    <button class="desplegar-btn">Desplegar</button>
+    <div class="concepto-content">
+      <p>El router conecta tu red local con Internet y gestiona el tráfico entre dispositivos.</p>
+      <img src="./router.png" alt="Imagen de un router">
+    </div>
+  </div>
+</div>
+
+<div class="extra-info">
+  <h2>Conceptos adicionales</h2>
+  <h3>Switch</h3>
+  <p>Permite que múltiples dispositivos en una red local se comuniquen entre sí.</p>
+
+  <h3>Firewall</h3>
+  <p>Protege la red del tráfico no deseado.</p>
+
+  <h3>Protocolo TCP/IP</h3>
+  <p>Conjunto de reglas que permite que los datos viajen por la red correctamente.</p>
+</div>
+
+<div class="gallery">
+  <div class="gallery-item">
+    <img src="switch.jpg" alt="Switch">
+    <p>Switch: comunica dispositivos en la misma red</p>
+  </div>
+
+  <div class="gallery-item">
+    <img src="firewall.webp" alt="Firewall">
+    <p>Firewall: protege la red</p>
+  </div>
+
+  <div class="gallery-item">
+    <img src="protocolo-TCP-IP-04.webp" alt="TCP/IP">
+    <p>Protocolo TCP/IP: reglas de comunicación</p>
+  </div>
+</div>
+
+<footer>Página creada por Aitor — Curso 2025/2026</footer>
+
+<script>
+  // partículas
+  window.addEventListener('load', () => {
+    const pageHeight = document.body.scrollHeight;
+    for (let i = 0; i < 100; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 6 + 3;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * window.innerWidth + 'px';
+      p.style.top = Math.random() * pageHeight + 'px';
+      p.style.animationDuration = (12 + Math.random() * 20) + 's';
+      document.body.appendChild(p);
+      const fadeCycle = () => {
+        const appearTime = Math.random() * 3000 + 1000;
+        const visibleTime = Math.random() * 4000 + 2000;
+        const fadeTime = Math.random() * 3000 + 1500;
+        setTimeout(() => {
+          p.style.opacity = 1;
+          setTimeout(() => {
+            p.style.opacity = 0;
+            setTimeout(fadeCycle, fadeTime);
+          }, visibleTime);
+        }, appearTime);
+      };
+      fadeCycle();
+    }
+  });
+
+  // desplegar contenido
+  const conceptos = document.querySelectorAll('.concepto');
+  conceptos.forEach(c => {
+    const btn = c.querySelector('.desplegar-btn');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      conceptos.forEach(o => {
+        if(o !== c) o.classList.remove('expanded');
+      });
+      c.classList.toggle('expanded');
+    });
+  });
+</script>
+
+</body>
+</html>
